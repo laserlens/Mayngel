@@ -1,0 +1,20 @@
+html {
+  text-align: center;
+}
+h1 {
+  font-family: 'Taviraj', serif;
+  color: indigo;
+}
+
+h3 {
+  color: gray;
+  padding: 1em 0 1em 0;
+}
+button:focus {
+  display: none;
+}
+
+strong {
+  padding-left: 1em;
+  padding-right: 2em;
+}
