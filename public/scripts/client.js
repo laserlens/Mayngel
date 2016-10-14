@@ -2,8 +2,8 @@ $(function () {
 
   getToDo();
   $('#toDo-form').on('submit', addToDo);
-  $('#toDo-list').on('click','button',removeToDo);
-  $('#toDo-list').on('change', 'checkbox', checkedToDo);
+  $('#toDo-list').on('click','.remove',removeToDo);
+  $('#toDo-list').on('click', '.checkbox', checkedToDo);
 });//end of jquery
 
 
@@ -24,9 +24,9 @@ function displayToDo(response) {
    $div.empty();
    response.forEach(function(toDo) {
      var $li = $('<h4></h4>');
-     $li.append('<input class='+ toDo.mayngelpoints +' type="checkbox">');
+     $li.append('<button Type="button" class="btn-default checkbox" id = "'+toDo.mayngelpoints+'">&nbsp;&nbsp;</button>');
      $li.append('<strong>' + toDo.list + '</strong>');
-     $li.append('<button Type="button" id = '+toDo.id+'>Remove</button>');
+     $li.append('<button Type="button" class="btn-default remove" id ="'+toDo.id+'">Remove</button>');
      $div.append($li);
      if (toDo.mayngelpoints == true) {
          document.getElement(this).checked = true;
