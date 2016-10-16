@@ -8,14 +8,15 @@
     <link rel="stylesheet" href="styles/styles.css"  />
   </head>
   <body>
-      <img src="http://www.fillmurray.com/g/155/300" alt="a picture of a mayngel" />
       <h1>Mayngel Do List</h1>
-      <h3>Mayngel Points: <span id="points"></span></h3>
-      <div class="container well text-center" id="toDo-list"></div>
+      <img src="http://www.fillmurray.com/g/155/300" alt="a picture of a mayngel" />
+      <h3 class="score">Mayngel Points: <span id="points"></span></h3>
       <h3>Add a thing to do</h3>
       <form id="toDo-form">
         <input type="text" class="inputToDo" name="list" id="theToDo"/>
-        <button type="submit" value="add" class="btn-default" id="addButton">Add</Button>
+        <button type="submit" value="add" class="btn-default btn-success" id="addButton">Add</Button>
       </form>
+      <h3>Do a thing get points</h3>
+      <div class="container text-center" id="toDo-list"></div>
   </body>
 </html>

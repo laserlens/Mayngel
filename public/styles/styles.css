@@ -2,6 +2,11 @@ html {
   margin: none;
   text-align: center;
 }
+body {
+  background-color: #f5f5f5;
+  margin: 0 auto;
+  padding: 0;
+}
 button:focus {
   display: none;
 }
@@ -11,4 +16,20 @@ div{
 }
 strong{
   font-size: 2em;
+}
+#toDo-list {
+  color: #555;
+  padding: 0;
+  font-family: courier, monospace;
+  border: 1px solid #dedede;
+}
+.list {
+  border-bottom: 1px dotted #ffaa9f;
+  text-indent: 25px;
+  padding: 10px;
+}
+.score {
+  margin-right: 3em;
+  margin-left: 46em;
+  border: 2px solid indianred;
 }
