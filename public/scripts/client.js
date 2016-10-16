@@ -1,5 +1,4 @@
 $(function () {
-
   getToDo();
   $('#toDo-form').on('submit', addToDo);
   $('#toDo-list').on('click','.remove',removeToDo);
@@ -20,19 +19,17 @@ function displayToDo(response) {
    $div.empty();
    response.forEach(function(toDo) {
      var $ul = $('<ul></ul>');
+     var $button;
      if (toDo.mayngelpoints == true) {
-       var $button = $('<div><button type="button" class="btn-default btn-primary checkbox" id="'+toDo.id+'">X</button></div>');
-       $button.data('id', toDo.id);
-       console.log('true data ', toDo.id);
+       $button = $('<div><button type="button" class="btn-default btn-primary checkbox">X</button></div>');
        $ul.append($button);
        $ul.append('<div class="list"><strong><s>' + toDo.list + '</s></strong></div>');
      }else {
-       var $button = $('<div><button type="button" class="btn-default checkbox" id="'+toDo.id+'">&nbsp;&nbsp;</button></div>');
-       $button.data('id', toDo.id);
-       console.log('false data ', toDo.id);
+       $button = $('<div><button type="button" class="btn-default checkbox">&nbsp;&nbsp;</button></div>');
        $ul.append($button);
        $ul.append('<div class="list"><strong>' + toDo.list + '</strong></div>');
      }
+     $button.data('id', toDo.id);
      $ul.append('<div class="list"><button type="button" class="btn-default btn-danger btn-xs remove" id ="'+toDo.id+'">Remove</button></div>');
      $div.append($ul);
      var points = $( "s" ).length;
@@ -54,7 +51,6 @@ function displayToDo(response) {
 }
 // funtion that deletes a task from list
 function removeToDo(event) {
-
    var toDoId = Number(this.id);
    $.ajax({
      type: 'DELETE',
@@ -66,7 +62,7 @@ function removeToDo(event) {
 // funtion that allows user to switch a task from not done to done or vise versa
 function addChecked(event) {
   event.preventDefault();
-  var $button = $(this).attr('id');
+  var $button = $(this).parent().data('id');
   var truthyness;
    if ($(this).text()== 'X') {
      truthyness = false;

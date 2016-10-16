@@ -29,13 +29,14 @@ router.get('/',function (req, res) {
   });// end of connection
 });//end of get
 router.post('/', function (req, res) {
-  console.log(req.body);
+
   pool.connect(function (err,client,done) {
     if (err) {
       res.sendStatus(500);
       done();
       return;
     }
+    // query client to add user input to database
     client.query('INSERT INTO toDo (list, mayngelpoints) VALUES ($1, $2);',
                   [req.body.list, req.body.mayngelpoints],
                   function (err, result) {
