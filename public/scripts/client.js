@@ -3,7 +3,7 @@ $(function () {
   getToDo();
   $('#toDo-form').on('submit', addToDo);
   $('#toDo-list').on('click','.remove',removeToDo);
-  $('#toDo-list').on('click', '.checkbox', checkedToDo);
+  $('#toDo-list').on('click', '.checkbox', addChecked);
 });//end of jquery
 
 
@@ -16,32 +16,36 @@ function getToDo() {
 }
 
 function displayToDo(response) {
-    var total=$(this).find('input[name="lineup[]"]:checked').length;
-    $('#points').text(total);
-    console.log('checked total', total);
-   //console.log(response);
    var $div = $('#toDo-list');
    $div.empty();
    response.forEach(function(toDo) {
-     var $li = $('<h4></h4>');
-     $li.append('<button Type="button" class="btn-default checkbox" id = "'+toDo.mayngelpoints+'">&nbsp;&nbsp;</button>');
-     $li.append('<strong>' + toDo.list + '</strong>');
-     $li.append('<button Type="button" class="btn-default remove" id ="'+toDo.id+'">Remove</button>');
-     $div.append($li);
+     var $ul = $('<ul></ul>');
      if (toDo.mayngelpoints == true) {
-         document.getElement(this).checked = true;
-       }
+       var $button = $('<div><button type="button" class="btn-default checkbox" id="'+toDo.id+'">X</button></div>');
+       $button.data('id', toDo.id);
+       console.log('true data ', toDo.id);
+       $ul.append($button);
+       $ul.append('<div><strong><s>' + toDo.list + '</s></strong></div>');
+     }else {
+       var $button = $('<div><button type="button" class="btn-default checkbox" id="'+toDo.id+'">&nbsp;&nbsp;</button></div>');
+       $button.data('id', toDo.id);
+       console.log('false data ', toDo.id);
+       $ul.append($button);
+       $ul.append('<div><strong>' + toDo.list + '</strong></div>');
+     }
+     $ul.append('<div><button type="button" class="btn-default remove" id ="'+toDo.id+'">Remove</button></div>');
+     $div.append($ul);
    });
- }
+    }
+
  function addToDo(event) {
    event.preventDefault();
     var toDoData = $('#theToDo').val();
     console.log('whats this toDoData',toDoData);
-
     $.ajax({
       type: 'POST',
       url: '/toDo',
-      data: {'list':toDoData},
+      data: {'list':toDoData, 'mayngelpoints':'false'},
       success: getToDo
     });
 
@@ -58,15 +62,21 @@ function removeToDo(event) {
      success: getToDo
    });
 }
-function checkedToDo(event) {
+function addChecked(event) {
   event.preventDefault();
-   var checked = $(':checkbox').attr('class');
-   console.log('checked is',checked);
-
+  var $button = $(this).attr('id');
+  console.log('whats this button', $button);
+  var truthyness;
+   if ($(this).text()== 'X') {
+     truthyness = false;
+   }else{
+     truthyness = true;
+   }
+   console.log('whats the truth ',truthyness);
    $.ajax({
      type: 'PUT',
-     url: '/toDo',
-     data: {'mayngelpoints':checked},
-     success: getToDo
+     url: '/toDo/',
+     data: {'id':$button, 'mayngelpoints':truthyness },
+     success: setTimeout(getToDo, 10)
    });
- }
+}

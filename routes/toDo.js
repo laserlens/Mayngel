@@ -12,10 +12,6 @@ var pool = new pg.Pool(config);
 
 router.get('/',function (req, res) {
 
-  //err - an error object, will be not null if there was an error connecting
-  //   possible errors, db not running, config is wrong
-  //client - object that is used to make queries against the db
-  //done - function to call when you're done(returns connection back to pool)
   pool.connect(function (err, client, done) {
     if (err) {
     console.log('Error connectiong to DB', err);
@@ -23,11 +19,8 @@ router.get('/',function (req, res) {
     done();
     return;
     }
-    //1. SQL string
-    //2. (optional) input perameters
-    //3. callback function to execute once the querry finishes
-    //      takes an error object and a result object as args
-    client.query('SELECT * FROM toDo;', function(err, result) {
+
+    client.query('SELECT * FROM toDo ORDER BY mayngelpoints;', function(err, result) {
       done();
       if (err) {
       console.log('Error querrying to DB', err);
@@ -50,8 +43,8 @@ router.post('/', function (req, res) {
       done();
       return;
     }
-    client.query('INSERT INTO toDo (list) VALUES ($1) returning *;',
-                  [req.body.list],
+    client.query('INSERT INTO toDo (list, mayngelpoints) VALUES ($1, $2);',
+                  [req.body.list, req.body.mayngelpoints],
                   function (err, result) {
       done();
       if (err) {
@@ -91,29 +84,30 @@ router.delete('/', function (req, res) {
     });
   });
   router.put('/', function (req, res) {
-    console.log(req.body);
-    pool.connect(function (err,client,done) {
-      if (err) {
-        res.sendStatus(500);
-        done();
-        return;
-      }
-      client.query('INSERT INTO toDo (list) VALUES ($1) returning *;',
-                    [req.body.mayngelpoints],
-                    function (err, result) {
-        done();
+      var id = req.body.id;
+      var mayngelpoints = req.body.mayngelpoints;
+      console.log('whats id', id);
+
+      pool.connect(function (err,client,done) {
+       try{
         if (err) {
-          console.log(err);
           res.sendStatus(500);
           return;
         }
+      client.query('UPDATE toDo SET mayngelpoints = $1 WHERE id = $2;',
+                    [mayngelpoints, id],
+                        function (err, result) {
+                           if (err) {
+                             console.log('Error querying database', err);
+                             res.sendStatus(500);
+                           }
 
-        res.send(result.rows);
-      });
-    });//end of pool connection
-
-
-  });//end of post
+                        });//end of query
+        }finally {
+          done();
+        }
+      });//end of conect
+    });//end of put
 
 
 module.exports = router;
