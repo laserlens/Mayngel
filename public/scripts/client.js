@@ -74,7 +74,7 @@ function addChecked(event) {
    }
    $.ajax({
      type: 'PUT',
-     url: '/toDo/',
+     url: '/toDo',
      data: {'id':$button, 'mayngelpoints':truthyness },
      success: displayToDo
    });
