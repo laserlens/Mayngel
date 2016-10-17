@@ -1,7 +1,7 @@
 $(function () {
   getToDo();
   $('#toDo-form').on('submit', addToDo);
-  $('#toDo-list').on('click','.remove',removeToDo);
+  $('#toDo-list').on('click','.remove', removeToDo);
   $('#toDo-list').on('click', '.checkbox', addChecked);
 });//end of jquery
 
@@ -51,13 +51,16 @@ function displayToDo(response) {
 }
 // funtion that deletes a task from list
 function removeToDo(event) {
-   var toDoId = Number(this.id);
+  var toDoId = Number($(this).attr('id'));
+  //creates an alert box asking are you sure you want to delete this
+  if (confirm('Are you sure you want to delete this?')) {
    $.ajax({
      type: 'DELETE',
      url: '/toDo',
      data: {'id':toDoId},
      success: getToDo
    });
+ }
 }
 // funtion that allows user to switch a task from not done to done or vise versa
 function addChecked(event) {

@@ -1,6 +1,9 @@
 #Weekend Challenge 4
 - Create a to do list that CRUDs
 
+## special note:
+changed the hard mode to do the confirm box on remove button since built the done task button boxes to be allow the user to check and uncheck
+
 ##What is Happening
   1. On load add all info from the Data Base to the page
   2. On the landing page user can:

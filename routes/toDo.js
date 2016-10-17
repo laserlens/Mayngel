@@ -16,7 +16,8 @@ router.get('/',function (req, res) {
     done();
     return;
     }
-    // query the database to get the table information and send to client.js
+    // query the database to get the table information
+    //and send it to client.js in order of boolean value of mayngelpoints
     client.query('SELECT * FROM toDo ORDER BY mayngelpoints;', function(err, result) {
       done();
       if (err) {
@@ -93,6 +94,7 @@ router.delete('/', function (req, res) {
                            }
                         });//end of query
       // query the table after update to send updated table to client.js
+      //and in the order of boolean value of mayngelpoints
       client.query('SELECT * FROM toDo ORDER BY mayngelpoints;',
                         function(err, result) {
                           if (err) {
