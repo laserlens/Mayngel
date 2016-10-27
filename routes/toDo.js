@@ -74,7 +74,7 @@ router.delete('/', function (req, res) {
 
       });
     });
-  });
+  });//end of delete
   router.put('/', function (req, res) {
       var id = req.body.id;
       var mayngelpoints = req.body.mayngelpoints;
